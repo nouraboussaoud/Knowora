@@ -1,5 +1,6 @@
 # Knowora
 
+
 **Your knowledge. One intelligent conversation.**
 
 Knowora is an AI-powered document assistant built with Retrieval-Augmented Generation (RAG). It lets users ask questions about a PDF knowledge base and receive answers generated from the most relevant passages in that document.
