@@ -7,8 +7,8 @@ from app import config
 
 
 def extract_pages(path):
-    doc = pymupdf.open(path)  # au lieu de : fitz.open(path)
-    return [(i + 1, page.get_text()) for i, page in enumerate(doc)]
+    with pymupdf.open(path) as doc:  # au lieu de : fitz.open(path)
+        return [(i + 1, page.get_text()) for i, page in enumerate(doc)]
 
 
 def chunk_text(text, size, overlap):
@@ -30,14 +30,15 @@ def build_chunks(path):
     return chunks
 
 
-def main():
-    chunks = build_chunks(config.PDF_PATH)
-    print(f"{len(chunks)} morceaux extraits")
+def index_document(path, model=None, client=None):
+    """Replace the active collection with chunks from one PDF document."""
+    chunks = build_chunks(path)
+    if not chunks:
+        raise ValueError("The PDF does not contain enough extractable text to index.")
 
-    model = TextEmbedding(config.EMBED_MODEL)
+    model = model or TextEmbedding(config.EMBED_MODEL)
+    client = client or QdrantClient(path=config.QDRANT_PATH)
     vectors = list(model.embed([c["text"] for c in chunks]))
-
-    client = QdrantClient(path=config.QDRANT_PATH)
     if client.collection_exists(config.COLLECTION):
         client.delete_collection(config.COLLECTION)
     client.create_collection(
@@ -51,7 +52,12 @@ def main():
     ]
     for i in range(0, len(points), 128):
         client.upsert(config.COLLECTION, points=points[i:i + 128])
-    print("Index construit.")
+    return {"chunks": len(chunks), "pages": len({chunk["page"] for chunk in chunks})}
+
+
+def main():
+    result = index_document(config.PDF_PATH)
+    print(f"Index built: {result['chunks']} chunks from {result['pages']} pages.")
 
 
 if __name__ == "__main__":

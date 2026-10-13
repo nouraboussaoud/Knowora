@@ -15,6 +15,11 @@ def _load():
     return _model, _client
 
 
+def get_resources():
+    """Return the cached embedding model and Qdrant client for indexing or retrieval."""
+    return _load()
+
+
 def retrieve(question, k=None):
     model, client = _load()
     vector = next(iter(model.query_embed(question))).tolist()

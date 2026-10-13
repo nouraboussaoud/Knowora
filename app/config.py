@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -18,3 +19,8 @@ COLLECTION = "docs"
 CHUNK_WORDS = int(os.getenv("CHUNK_WORDS", "250"))
 CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", "50"))
 TOP_K = int(os.getenv("TOP_K", "5"))
+
+UPLOAD_DIR = Path(os.getenv("UPLOAD_DIR", "data/uploads"))
+ACTIVE_DOCUMENT_PATH = UPLOAD_DIR / "active.pdf"
+ACTIVE_DOCUMENT_META_PATH = UPLOAD_DIR / "active.json"
+MAX_UPLOAD_BYTES = int(os.getenv("MAX_UPLOAD_BYTES", str(20 * 1024 * 1024)))
