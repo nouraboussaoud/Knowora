@@ -7,7 +7,7 @@ Knowora is an AI-powered document assistant built with Retrieval-Augmented Gener
 
 Instead of relying on general model knowledge, Knowora retrieves supporting content from the indexed document first. Each answer includes the retrieved source excerpts, their page numbers, and relevance scores.
 
-**Live demo:** [knowora-la72.onrender.com](https://knowora-la72.onrender.com/)
+**Live demo:** [https://knowora-uffb.vercel.app/](https://knowora-uffb.vercel.app/)
 
 > **Default knowledge base:** Knowora starts with a Spring Boot PDF and answers Spring Boot questions from that document. Questions outside its scope should be refused.
 
