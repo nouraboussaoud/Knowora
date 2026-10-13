@@ -1,0 +1,9 @@
+.git/
+.github/
+.venv/
+__pycache__/
+*.py[cod]
+.env
+.fastembed/
+qdrant_data/
+eval/results.md

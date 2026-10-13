@@ -1,0 +1,13 @@
+services:
+  - type: web
+    runtime: docker
+    name: knowora-rag-assistant
+    region: frankfurt
+    plan: free
+    healthCheckPath: /health
+    autoDeployTrigger: 'off'
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GROQ_MODEL
+        value: llama-3.3-70b-versatile

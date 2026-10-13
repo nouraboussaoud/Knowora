@@ -82,6 +82,21 @@ docker compose up --build
 
 The application is available on [http://localhost:7860](http://localhost:7860).
 
+## Deploy to Render with GitHub Actions
+
+The repository includes a Render Blueprint in `render.yaml` and a CI/CD workflow in `.github/workflows/ci.yml`.
+
+1. Push this repository to GitHub, using `main` as the production branch.
+2. In Render, create a new **Blueprint** service from the repository. Render detects `render.yaml` and creates the Docker web service. The Blueprint sets `/health` as the health check and configures Render to use the container's `PORT` environment variable.
+3. In the Render service's **Environment** settings, set `GROQ_API_KEY` to your Groq key. Do not commit it to the repository.
+4. In the Render service's **Settings**, copy its Deploy Hook URL.
+5. In GitHub, open **Settings → Secrets and variables → Actions** and add a repository secret named `RENDER_DEPLOY_HOOK_URL` containing that URL.
+6. Push or merge to `main`. GitHub Actions runs the tests, builds the Docker image, and then invokes the protected Render deploy hook.
+
+Pull requests run tests only. Deployments occur only after a successful push to `main`. The `production` environment in the workflow can optionally be protected in GitHub with required reviewers before Render is triggered.
+
+`autoDeployTrigger` is set to `off` in the Blueprint to ensure that deployments are gated by the GitHub Actions checks rather than starting immediately when a commit is pushed.
+
 ## Configuration
 
 All configuration is read from environment variables or `.env`.
