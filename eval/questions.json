@@ -1,0 +1,5 @@
+[
+  {"q": "Question factuelle ?", "expected_answer": "Réponse attendue en une phrase", "expected_pages": [42], "type": "factual"},
+  {"q": "Question qui combine deux informations ?", "expected_answer": "Réponse attendue", "expected_pages": [12, 57], "type": "reasoning"},
+  {"q": "Quelle est la capitale du Japon ?", "expected_answer": "", "expected_pages": [], "type": "out_of_scope"}
+]

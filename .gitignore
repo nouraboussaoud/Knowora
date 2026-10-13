@@ -1,0 +1,5 @@
+.venv/
+.env
+qdrant_data/
+__pycache__/
+.fastembed/
